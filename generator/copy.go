@@ -2,7 +2,7 @@ package generator
 
 import (
 	"fmt"
-	"github.com/gofunct/common/pkg/logger/zap"
+	"github.com/gofunct/common/pkg/zap"
 	"io"
 	"os"
 	"path/filepath"

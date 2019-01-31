@@ -2,11 +2,10 @@ package gofs
 
 import (
 	"fmt"
+	"github.com/mgutz/str"
 	"path/filepath"
 	"regexp"
 	"strings"
-
-	"github.com/mgutz/str"
 )
 
 // WatchCriterion is the criteria needed to test if a file

@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"path"
 
-	"github.com/gofunct/common/pkg/logger/zap"
+	"github.com/gofunct/common/pkg/zap"
 	"github.com/gofunct/mamba/runtime/config"
 )
 
