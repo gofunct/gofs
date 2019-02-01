@@ -1,6 +1,7 @@
 package gofs
 
 import (
+	"github.com/gofunct/gofs/assetfs"
 	"github.com/gofunct/gofs/print"
 	"github.com/mgutz/minimist"
 )
@@ -17,10 +18,10 @@ type Context struct {
 	// Task is the currently running task.
 	Job *Job
 
-	Pipeline *Pipeline
+	Pipeline *assetfs.Pipeline
 
 	// FileEvent is an event from the watcher with change details.
-	FileEvent *FileEvent
+	FileEvent *assetfs.FileEvent
 
 	// Task command line arguments
 	Args minimist.ArgMap
@@ -31,7 +32,7 @@ type Context struct {
 // AnyFile returns either a non-DELETe FileEvent file or the WatchGlob patterns which
 // can be used by goa.Load()
 func (context *Context) AnyFile() []string {
-	if context.FileEvent != nil && context.FileEvent.Event != fs.DELETED {
+	if context.FileEvent != nil && context.FileEvent.Event != assetfs.DELETED {
 		return []string{context.FileEvent.Path}
 	}
 	return context.Job.SrcGlobs
@@ -64,7 +65,7 @@ func (context *Context) Bash(cmd string, options ...map[string]interface{}) {
 // Bash runs a bash shell.
 func (context *Context) Pipe(filters ...interface{}) {
 	if context.Pipeline == nil {
-		context.Pipeline = NewPipeline()
+		context.Pipeline = assetfs.NewPipeline()
 	}
 
 }
