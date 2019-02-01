@@ -7,52 +7,9 @@ import (
 	"io"
 )
 
-type ExecName int
-
-const (
-	Bash       ExecName = 0
-	Docker     ExecName = 1
-	Kubectl    ExecName = 3
-	Terraform  ExecName = 4
-	Protoc     ExecName = 5
-	Stencil    ExecName = 6
-	StencilBin ExecName = 7
-	Gcloud     ExecName = 8
-)
-
-func (e ExecName) String() string {
-	names := [...]string{
-		"Bash",
-		"Docker",
-		"Kubectl",
-		"Terraform",
-		"Protoc",
-		"Stencil",
-		"StencilBin",
-		"Gcloud",
-	}
-
-	return names[e]
-}
-
-func (e ExecName) Command() string {
-	names := [...]string{
-		"Bash",
-		"Docker",
-		"Kubectl",
-		"Terraform",
-		"Protoc",
-		"Stencil",
-		"StencilBin",
-		"Gcloud",
-	}
-
-	return names[e]
-}
-
 type Script struct {
 	Context context.Context
-	Name    ExecName
+	Name    string
 	Args    []string
 }
 
@@ -81,7 +38,7 @@ func (s *Scripter) Run() error {
 		s.Interface = exec.New()
 	}
 	for _, v := range s.Scripts {
-		cmd := s.CommandContext(v.Context, v.Name.Command(), v.Args...)
+		cmd := s.CommandContext(v.Context, v.Name, v.Args...)
 		out, err := cmd.Output()
 		if err != nil {
 			return err
