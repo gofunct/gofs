@@ -2,7 +2,6 @@ package gofs
 
 import (
 	"bytes"
-	"github.com/gofunct/common/pkg/fs"
 	"github.com/gofunct/gofs/assetfs"
 	"github.com/gofunct/gofs/print"
 	"io/ioutil"

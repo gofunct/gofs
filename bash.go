@@ -170,7 +170,7 @@ func bash(script string, options []map[string]interface{}) (output string, err e
 	}
 
 	if strings.Contains(script, "{{") {
-		script, err = print.StrTemplate(script, m)
+		script, err = StrTemplate(script, m)
 		if err != nil {
 			return "", err
 		}
