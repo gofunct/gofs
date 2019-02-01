@@ -3,7 +3,9 @@ package gofs
 import (
 	"bufio"
 	"fmt"
+	"github.com/gofunct/gofs/print"
 	"github.com/howeyc/gopass"
+	"github.com/mgutz/str"
 	"github.com/nozzle/throttler"
 	"os"
 	"os/exec"
@@ -63,7 +65,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 		return err
 	}
 	if strings.Contains(commandstr, "{{") {
-		commandstr, err = util.StrTemplate(commandstr, m)
+		commandstr, err = print.StrTemplate(commandstr, m)
 		if err != nil {
 			return err
 		}
@@ -85,7 +87,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 			if err != nil {
 				p = event.Path
 			}
-			util.Info(context.Task.Name, "rebuilding %s...\n", filepath.Dir(p))
+			print.Info(context.Task.Name, "rebuilding %s...\n", filepath.Dir(p))
 			rebuildPackage(event.Path)
 		}
 	}
@@ -93,7 +95,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 	if isGoFile {
 		cmdstr := "go install"
 		if context == nil || context.FileEvent == nil {
-			util.Info(context.Task.Name, "rebuilding with -a to ensure clean build (might take awhile)\n")
+			print.Info(context.Task.Name, "rebuilding with -a to ensure clean build (might take awhile)\n")
 			cmdstr += " -a"
 		}
 		_, err = Run(cmdstr, m)
@@ -168,7 +170,7 @@ func bash(script string, options []map[string]interface{}) (output string, err e
 	}
 
 	if strings.Contains(script, "{{") {
-		script, err = util.StrTemplate(script, m)
+		script, err = print.StrTemplate(script, m)
 		if err != nil {
 			return "", err
 		}
@@ -192,7 +194,7 @@ func run(commandstr string, options []map[string]interface{}) (output string, er
 	}
 
 	if strings.Contains(commandstr, "{{") {
-		commandstr, err = util.StrTemplate(commandstr, m)
+		commandstr, err = print.StrTemplate(commandstr, m)
 		if err != nil {
 			return "", err
 		}
