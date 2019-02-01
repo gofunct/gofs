@@ -65,7 +65,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 		return err
 	}
 	if strings.Contains(commandstr, "{{") {
-		commandstr, err = print.StrTemplate(commandstr, m)
+		commandstr, err = StrTemplate(commandstr, m)
 		if err != nil {
 			return err
 		}
@@ -87,7 +87,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 			if err != nil {
 				p = event.Path
 			}
-			print.Info(context.Task.Name, "rebuilding %s...\n", filepath.Dir(p))
+			print.Info(context.Job.Name, "rebuilding %s...\n", filepath.Dir(p))
 			rebuildPackage(event.Path)
 		}
 	}
@@ -95,7 +95,7 @@ func startEx(context *Context, commandstr string, options []map[string]interface
 	if isGoFile {
 		cmdstr := "go install"
 		if context == nil || context.FileEvent == nil {
-			print.Info(context.Task.Name, "rebuilding with -a to ensure clean build (might take awhile)\n")
+			print.Info(context.Job.Name, "rebuilding with -a to ensure clean build (might take awhile)\n")
 			cmdstr += " -a"
 		}
 		_, err = Run(cmdstr, m)
@@ -194,7 +194,7 @@ func run(commandstr string, options []map[string]interface{}) (output string, er
 	}
 
 	if strings.Contains(commandstr, "{{") {
-		commandstr, err = print.StrTemplate(commandstr, m)
+		commandstr, err = StrTemplate(commandstr, m)
 		if err != nil {
 			return "", err
 		}

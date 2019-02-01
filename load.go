@@ -21,8 +21,7 @@ type Loader struct {
 }
 
 func NewLoader(source string, dest string) *Loader {
-	var defaultProgressBar getter.ProgressTracker = &ProgressBar{}
-	return &Loader{Source: source, Dest: dest, progressBar: defaultProgressBar}
+	return &Loader{Source: source, Dest: dest, progressBar: &ProgressBar{}}
 }
 
 func (l *Loader) Load() {

@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gofunct/common/pkg/zap"
+	"github.com/gofunct/gofs/print"
 	"github.com/mgutz/str"
 	"io"
 	"io/ioutil"

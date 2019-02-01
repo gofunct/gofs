@@ -2,6 +2,7 @@ package gofs
 
 import (
 	"bytes"
+	"github.com/gofunct/common/pkg/fs"
 	"github.com/gofunct/gofs/assetfs"
 	"github.com/gofunct/gofs/print"
 	"io/ioutil"
@@ -111,7 +112,7 @@ func Cat(join string, dest string) func(*assetfs.Pipeline) error {
 // with large files.
 func Load(patterns ...string) func(*assetfs.Pipeline) error {
 	return func(pipeline *assetfs.Pipeline) error {
-		fileAssets, _, err := fs.Glob(patterns)
+		fileAssets, _, err := assetfs.Glob(patterns)
 		if err != nil {
 			return err
 		}
