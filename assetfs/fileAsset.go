@@ -1,6 +1,8 @@
-package gofs
+package assetfs
 
-import "os"
+import (
+	"os"
+)
 
 // FileAsset contains file information and path from globbing.
 type FileAsset struct {

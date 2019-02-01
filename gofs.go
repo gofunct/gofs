@@ -1,4 +1,4 @@
-package scripter
+package gofs
 
 import (
 	"context"
@@ -13,27 +13,27 @@ type Script struct {
 	Args    []string
 }
 
-type Scripter struct {
+type GoFs struct {
 	exec.Interface
 	Scripts []*Script
 	bits    []byte
 }
 
-func (s *Scripter) AddScript(script *Script) {
+func (s *GoFs) AddScript(script *Script) {
 	if s.Interface == nil {
 		s.Interface = exec.New()
 	}
 	s.Scripts = append(s.Scripts, script)
 }
 
-func (s *Scripter) AddBits(bits []byte) {
+func (s *GoFs) AddBits(bits []byte) {
 	if s.Interface == nil {
 		s.Interface = exec.New()
 	}
 	s.bits = append(s.bits, bits...)
 }
 
-func (s *Scripter) Run() error {
+func (s *GoFs) Run() error {
 	if s.Interface == nil {
 		s.Interface = exec.New()
 	}
@@ -47,7 +47,7 @@ func (s *Scripter) Run() error {
 	}
 	return nil
 }
-func (s *Scripter) GetBits() []byte {
+func (s *GoFs) GetBits() []byte {
 	err := s.jsonify()
 	if err != nil {
 		panic(err)
@@ -55,7 +55,7 @@ func (s *Scripter) GetBits() []byte {
 	return s.bits
 }
 
-func (s *Scripter) WriteTo(w io.Writer) error {
+func (s *GoFs) WriteTo(w io.Writer) error {
 	if s.Interface == nil {
 		s.Interface = exec.New()
 	}
@@ -68,7 +68,7 @@ func (s *Scripter) WriteTo(w io.Writer) error {
 	}
 	return nil
 }
-func (s *Scripter) jsonify() error {
+func (s *GoFs) jsonify() error {
 	if s.Interface == nil {
 		s.Interface = exec.New()
 	}

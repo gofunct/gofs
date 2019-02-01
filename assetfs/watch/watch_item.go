@@ -1,4 +1,4 @@
-package gofswatch
+package watch
 
 import "os"
 

@@ -48,10 +48,10 @@ func EditFile(filePath string, f func(io.Reader, io.Writer) error) (retErr error
 // TODO(pedge): not real verification that we are in package comments,
 // just takes the first block comment in the file and eliminates it.
 func StripPackageCommentsForFile(filePath string) error {
-	return EditFile(filePath, editStripPackageCommentsForFile)
+	return EditFile(filePath, EditStripPackageCommentsForFile)
 }
 
-func editStripPackageCommentsForFile(reader io.Reader, writer io.Writer) error {
+func EditStripPackageCommentsForFile(reader io.Reader, writer io.Writer) error {
 	bufioReader := bufio.NewReader(reader)
 	inPackageComments := false
 	for line, err := bufioReader.ReadString('\n'); err != io.EOF; line, err = bufioReader.ReadString('\n') {

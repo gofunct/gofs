@@ -1,9 +1,9 @@
-package watcher
+package assetfs
 
 import (
 	//"fmt"
 
-	"github.com/gofunct/common/pkg/fs/watcher/fswatch"
+	"github.com/gofunct/gofs/assetfs/watch"
 	"github.com/mgutz/str"
 	"os"
 	"path/filepath"
@@ -20,7 +20,7 @@ const (
 
 // SetWatchDelay sets the watch delay
 func SetWatchDelay(delay time.Duration) {
-	fswatch.WatchDelay = delay
+	watch.WatchDelay = delay
 }
 
 // Watcher is a wrapper around which adds some additional features:
@@ -31,7 +31,7 @@ func SetWatchDelay(delay time.Duration) {
 //
 // Original work from https://github.com/bronze1man/kmg
 type Watcher struct {
-	*fswatch.Watcher
+	*watch.Watcher
 	Event chan *FileEvent
 	Error chan error
 	//default ignore all file start with "."
@@ -47,7 +47,7 @@ type Watcher struct {
 // NewWatcher creates an instance of watcher.
 func NewWatcher(bufferSize int) (watcher *Watcher, err error) {
 
-	fswatcher := fswatch.NewAutoWatcher()
+	fswatcher := watch.NewAutoWatcher()
 
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (w *Watcher) eventLoop() {
 		}
 
 		// you can not stat a delete file...
-		if event.Event == fswatch.DELETED || event.Event == fswatch.NOEXIST {
+		if event.Event == watch.DELETED || event.Event == watch.NOEXIST {
 			// adjust with arbitrary value because it was deleted
 			// before it got here
 			//fmt.Println("sending fi wevent", event)

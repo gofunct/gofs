@@ -1,4 +1,4 @@
-package gofs
+package assetfs
 
 import (
 	"bytes"
@@ -173,7 +173,7 @@ func Glob(patterns []string) ([]*FileAsset, []*RegexpInfo, error) {
 				if root == "" {
 					return nil, nil, fmt.Errorf("Cannot get root from pattern: %s", pattern)
 				}
-				fileAssets, err := walkFiles(root)
+				fileAssets, err := WalkFiles(root)
 				if err != nil {
 					return nil, nil, err
 				}
@@ -255,7 +255,7 @@ func PatternRoot(s string) string {
 
 // walkFiles walks a directory starting at root returning all directories and files
 // include those found in subdirectories.
-func walkFiles(root string) ([]*FileAsset, error) {
+func WalkFiles(root string) ([]*FileAsset, error) {
 	fileAssets := []*FileAsset{}
 	var lock sync.Mutex
 	visitor := func(path string, info os.FileInfo, err error) error {

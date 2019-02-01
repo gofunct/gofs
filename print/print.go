@@ -1,13 +1,13 @@
-package gofs
+package print
 
 import (
 	"fmt"
+	"github.com/mattn/go-colorable"
+	"github.com/mgutz/ansi"
 	"go.uber.org/zap"
 	"io"
 	"sync"
-
-	"github.com/mattn/go-colorable"
-	"github.com/mgutz/ansi"
+	"github.com/pkg/errors"
 )
 
 var cyan func(string) string
@@ -51,19 +51,21 @@ func init() {
 	LogWriter = &syncer{
 		colorable.NewColorableStdout(),
 	}
+	lger, _ := zap.NewDevelopment()
+	zap.ReplaceGlobals(lger)
 	zap.ErrorOutput(LogWriter)
 }
 
 // Debug writes a debug statement to stdout.
 func Debug(group string, format string, any ...interface{}) {
-	fmt.Fprint(LogWriter, gray(group)+" ")
-	fmt.Fprintf(LogWriter, gray(format), any...)
+	_, _ =  fmt.Fprint(LogWriter, gray(group)+" ")
+	_, _ = fmt.Fprintf(LogWriter, gray(format))
 }
 
 // Info writes an info statement to stdout.
 func Info(group string, format string, any ...interface{}) {
-	fmt.Fprint(LogWriter, cyan(group)+" ")
-	fmt.Fprintf(LogWriter, format, any...)
+	_, _ = fmt.Fprint(LogWriter, cyan(group)+" ")
+	_, _ = fmt.Fprintf(LogWriter, format, any...)
 }
 
 // InfoColorful writes an info statement to stdout changing colors
@@ -73,22 +75,35 @@ func InfoColorful(group string, format string, any ...interface{}) {
 	colorfulMap[group]++
 	colorFn := colorfulFormats[colorfulMap[group]%len(colorfulFormats)]
 	colorfulMutex.Unlock()
-
-	fmt.Fprint(LogWriter, cyan(group)+" ")
+	_, _ = fmt.Fprint(LogWriter, cyan(group)+" ")
 	s := colorFn(fmt.Sprintf(format, any...))
-	fmt.Fprint(LogWriter, s)
+
+	_, _ =  fmt.Fprint(LogWriter, s)
 }
 
 // Error writes an error statement to stdout.
 func Error(group string, format string, any ...interface{}) error {
-	fmt.Fprintf(LogWriter, red(group)+" ")
-	fmt.Fprintf(LogWriter, red(format), any...)
+	_, _ =fmt.Fprintf(LogWriter, red(group)+" ")
+	_ , _ = fmt.Fprintf(LogWriter, red(format), any...)
+
 	return fmt.Errorf(format, any...)
 }
 
 // Panic writes an error statement to stdout.
 func Panic(group string, format string, any ...interface{}) {
-	fmt.Fprintf(LogWriter, redInverse(group)+" ")
-	fmt.Fprintf(LogWriter, redInverse(format), any...)
+	_, _ = fmt.Fprintf(LogWriter, redInverse(group)+" ")
+
+	_, _ = fmt.Fprintf(LogWriter, redInverse(format), any...)
+
 	panic("")
+}
+
+// Error writes an error statement to stdout.
+func WithStack(e error) error {
+	return errors.WithStack(e)
+}
+
+// Error writes an error statement to stdout.
+func Hint(e error, hint string) error {
+	return errors.Wrap(e, hint)
 }

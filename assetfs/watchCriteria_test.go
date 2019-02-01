@@ -1,4 +1,4 @@
-package gofs
+package assetfs
 
 import (
 	"strings"
