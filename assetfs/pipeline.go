@@ -64,7 +64,7 @@ func (pipeline *Pipeline) Pipe(filters ...interface{}) *Pipeline {
 func (pipeline *Pipeline) Run() {
 	for i, filter := range pipeline.Filters {
 		if i == 1 && len(pipeline.Assets) == 0 {
-			("pipeline", "There are 0 assets in pipeline. Check your Load filter. %+v\n", pipeline)
+			print.Info("pipeline", "There are 0 assets in pipeline. Check your Load filter. %+v\n", pipeline)
 		}
 		switch fn := filter.(type) {
 		default:
